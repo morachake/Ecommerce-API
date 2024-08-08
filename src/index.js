@@ -1,14 +1,18 @@
-const http = require('node:http');
+require('dotenv').config(); // Ensure this is at the top
 
-const hostname = '127.0.0.1';
-const port = 3000;
+console.log('DB_HOST:', process.env.DB_HOST);
+console.log('DB_USER:', process.env.DB_USER);
+console.log('DB_PASSWORD:', process.env.DB_PASSWORD);
+console.log('DB_NAME:', process.env.DB_NAME);
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello, World!\n');
-});
+const express = require('express');
+const authRoutes = require('./routes/authRoutes'); 
+const app = express();
+const port = process.env.PORT || 3000;
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+app.use(express.json());
+app.use('/api/auth', authRoutes);
+
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
 });
