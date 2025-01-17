@@ -1,10 +1,10 @@
 import uuid
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
 
-class User(AbstractBaseUser):
+class User(AbstractUser):
     pass 
 
 class Product(models.Model):
@@ -41,7 +41,7 @@ class Order(models.Model):
         return f"Order {self.order_id} by {self.user.username}"
     
 class OrderItem(models.Model):
-    foreign_key = models.ForeignKey(Order, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveBigIntegerField()
     
